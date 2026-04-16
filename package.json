@@ -1,0 +1,67 @@
+{
+  "name": "@imgwire/react-native",
+  "version": "0.1.0",
+  "description": "TypeScript-first React Native SDK for imgwire.",
+  "license": "MIT",
+  "packageManager": "yarn@1.22.22",
+  "type": "module",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Blackhawk-Software/imgwire-react-native.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Blackhawk-Software/imgwire-react-native/issues"
+  },
+  "homepage": "https://github.com/Blackhawk-Software/imgwire-react-native#readme",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    ".rnstorybook",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "format": "prettier --write .",
+    "build": "tsup",
+    "storybook": "storybook dev -p 7007",
+    "build-storybook": "storybook build",
+    "release:prepare": "node scripts/release.mjs prepare",
+    "release:verify-tag": "node scripts/release.mjs verify-tag",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "ci": "yarn typecheck && yarn test && yarn build"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-native": ">=0.70"
+  },
+  "dependencies": {
+    "@imgwire/js": "^0.1.6"
+  },
+  "devDependencies": {
+    "@storybook/react": "^10.3.5",
+    "@storybook/react-native": "^10.0.0",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.0",
+    "@types/node": "^24.9.1",
+    "@types/react": "^19.2.2",
+    "jsdom": "^26.1.0",
+    "prettier": "3.6.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "storybook": "^10.3.5",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.3",
+    "vitest": "^2.1.8"
+  }
+}
