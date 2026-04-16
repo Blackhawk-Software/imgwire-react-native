@@ -14,11 +14,11 @@ export const Image = ({
   React.createElement("div", {
     ...props,
     "data-testid": "rn-image",
-    "data-source-uri": source?.uri ?? ""
+    "data-source-uri": source?.uri ?? "",
   });
 
 export const PixelRatio = {
-  get: vi.fn(() => 2)
+  get: vi.fn(() => 2),
 };
 
 export const Text = (props: Record<string, unknown>) =>

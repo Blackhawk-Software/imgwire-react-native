@@ -6,7 +6,7 @@ import { buildImageUrl } from "../utils/buildImageUrl.ts";
 import {
   compactImageUrlOptions,
   omitImageTransformProps,
-  pickImageUrlOptions
+  pickImageUrlOptions,
 } from "../utils/image-transforms.ts";
 
 export type ImgwireImageProps = {
@@ -32,8 +32,10 @@ export function Image(props: ImgwireImageProps) {
 
   const sourceUrl = buildImageUrl(
     baseUrl,
-    compactImageUrlOptions(pickImageUrlOptions(props))
+    compactImageUrlOptions(pickImageUrlOptions(props)),
   );
 
-  return <RNImage {...omitImageTransformProps(props)} source={{ uri: sourceUrl }} />;
+  return (
+    <RNImage {...omitImageTransformProps(props)} source={{ uri: sourceUrl }} />
+  );
 }

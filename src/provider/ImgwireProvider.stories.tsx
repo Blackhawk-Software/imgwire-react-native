@@ -9,7 +9,7 @@ const meta = {
     <ImgwireProvider config={{ apiKey: "pk_demo" }}>
       <Text>Imgwire provider is mounted.</Text>
     </ImgwireProvider>
-  )
+  ),
 } satisfies Meta<typeof ImgwireProvider>;
 
 export default meta;

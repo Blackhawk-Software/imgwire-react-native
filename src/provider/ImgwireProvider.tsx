@@ -17,8 +17,8 @@ export function ImgwireProvider({ config, children }: ImgwireProviderProps) {
       config.timeoutMs,
       config.fetch,
       config.getUploadToken,
-      config.xhrFactory
-    ]
+      config.xhrFactory,
+    ],
   );
 
   return (

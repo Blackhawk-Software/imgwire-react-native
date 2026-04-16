@@ -15,7 +15,7 @@ export function useClient(config?: ImgwireClientOptions): ImgwireClient {
 
   if (!config) {
     throw new Error(
-      "useClient must be used within <ImgwireProvider /> or called with a config object."
+      "useClient must be used within <ImgwireProvider /> or called with a config object.",
     );
   }
 

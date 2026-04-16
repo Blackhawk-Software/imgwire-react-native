@@ -17,7 +17,7 @@ vi.mock("@imgwire/js", () => {
   }
 
   return {
-    ImgwireClient
+    ImgwireClient,
   };
 });
 
@@ -37,7 +37,7 @@ describe("useClient", () => {
 
   it("creates an isolated client when config is provided", () => {
     const { result } = renderHook(() =>
-      useClient({ apiKey: "pk_isolated", fetch })
+      useClient({ apiKey: "pk_isolated", fetch }),
     );
 
     expect(result.current.options.apiKey).toBe("pk_isolated");
@@ -62,7 +62,7 @@ describe("useClient", () => {
 
     const { result } = renderHook(
       () => useClient({ apiKey: "pk_isolated", fetch }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.options.apiKey).toBe("pk_provider");
@@ -70,7 +70,7 @@ describe("useClient", () => {
 
   it("throws without a provider or config", () => {
     expect(() => renderHook(() => useClient())).toThrow(
-      "useClient must be used within <ImgwireProvider /> or called with a config object."
+      "useClient must be used within <ImgwireProvider /> or called with a config object.",
     );
   });
 });

@@ -26,7 +26,7 @@ export function useFetchImage(id: string): {
       setData(null);
       setIsLoading(false);
       setError(
-        new Error("useFetchImage must be used within <ImgwireProvider />.")
+        new Error("useFetchImage must be used within <ImgwireProvider />."),
       );
       return;
     }
@@ -51,7 +51,7 @@ export function useFetchImage(id: string): {
 
         setData(null);
         setError(
-          cause instanceof Error ? cause : new Error("Failed to fetch image.")
+          cause instanceof Error ? cause : new Error("Failed to fetch image."),
         );
         setIsLoading(false);
       });

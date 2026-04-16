@@ -17,7 +17,7 @@ function UploadDemo() {
           void upload({
             uri: "file:///tmp/example.jpg",
             name: "example.jpg",
-            type: "image/jpeg"
+            type: "image/jpeg",
           })
             .then(() => {
               setStatus("complete");
@@ -40,7 +40,7 @@ const meta = {
     <ImgwireProvider config={{ apiKey: "pk_demo" }}>
       <UploadDemo />
     </ImgwireProvider>
-  )
+  ),
 } satisfies Meta<typeof UploadDemo>;
 
 export default meta;

@@ -4,10 +4,10 @@ import { resolve } from "node:path";
 export default defineConfig({
   resolve: {
     alias: {
-      "react-native": resolve(__dirname, "test/react-native.mock.tsx")
-    }
+      "react-native": resolve(__dirname, "test/react-native.mock.tsx"),
+    },
   },
   test: {
-    environment: "jsdom"
-  }
+    environment: "jsdom",
+  },
 });

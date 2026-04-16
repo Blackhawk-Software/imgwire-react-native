@@ -22,7 +22,7 @@ if (command === "prepare") {
 function prepareRelease(version) {
   if (!isValidSemver(version)) {
     fail(
-      `Invalid version "${version}". Expected semver like 0.2.0 or 1.0.0-beta.1.`
+      `Invalid version "${version}". Expected semver like 0.2.0 or 1.0.0-beta.1.`,
     );
   }
 
@@ -48,12 +48,12 @@ function verifyTag(tag) {
 
   if (tag !== expectedTag) {
     fail(
-      `Release tag ${tag} does not match package.json version ${packageJson.version}. Expected ${expectedTag}.`
+      `Release tag ${tag} does not match package.json version ${packageJson.version}. Expected ${expectedTag}.`,
     );
   }
 
   console.log(
-    `Release tag ${tag} matches package.json version ${packageJson.version}.`
+    `Release tag ${tag} matches package.json version ${packageJson.version}.`,
   );
 }
 
@@ -67,7 +67,7 @@ function writeJson(path, value) {
 
 function isValidSemver(version) {
   return /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/.test(
-    version
+    version,
   );
 }
 

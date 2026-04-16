@@ -9,8 +9,8 @@ function ResponsiveImageDemo() {
     width: 390,
     breakpoints: [
       { minWidth: 0, width: 320, dpr: [1, 2] },
-      { minWidth: 375, width: 768, dpr: [2, 3] }
-    ]
+      { minWidth: 375, width: 768, dpr: [2, 3] },
+    ],
   });
 
   return (
@@ -23,7 +23,7 @@ function ResponsiveImageDemo() {
 const meta = {
   title: "Hooks/useResponsiveImage",
   component: ResponsiveImageDemo,
-  render: () => <ResponsiveImageDemo />
+  render: () => <ResponsiveImageDemo />,
 } satisfies Meta<typeof ResponsiveImageDemo>;
 
 export default meta;

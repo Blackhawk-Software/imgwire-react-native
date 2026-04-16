@@ -8,13 +8,13 @@ const meta = {
   component: Image,
   args: {
     style: { width: 280, height: 180 },
-    url: EXAMPLE_IMAGE_URL
+    url: EXAMPLE_IMAGE_URL,
   },
   render: (args) => (
     <View style={{ padding: 16 }}>
       <Image {...args} />
     </View>
-  )
+  ),
 } satisfies Meta<typeof Image>;
 
 export default meta;
@@ -28,6 +28,6 @@ export const Transformed: StoryObj<typeof meta> = {
     width: 560,
     height: 360,
     format: "webp",
-    quality: 80
-  }
+    quality: 80,
+  },
 };

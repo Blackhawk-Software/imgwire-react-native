@@ -11,7 +11,7 @@
 - upload files from `file://` or app-local URIs with progress tracking
 - build responsive transformation URLs manually for native layouts
 
-Imgwire docs: https://imgwire.dev/docs
+Imgwire docs: https://docs.imgwire.dev
 
 Underlying JavaScript SDK:
 
@@ -66,7 +66,7 @@ function Screen() {
 await upload({
   uri: "file:///path/to/image.jpg",
   name: "image.jpg",
-  type: "image/jpeg"
+  type: "image/jpeg",
 });
 ```
 
@@ -118,8 +118,8 @@ const uri = useResponsiveImage({
   width: screenWidth,
   breakpoints: [
     { minWidth: 0, width: 320, dpr: [1, 2] },
-    { minWidth: 768, width: 768, dpr: [2, 3] }
-  ]
+    { minWidth: 768, width: 768, dpr: [2, 3] },
+  ],
 });
 ```
 
@@ -136,6 +136,8 @@ yarn install
 yarn build
 yarn storybook
 ```
+
+In this repository, `yarn storybook` generates `.rnstorybook/storybook.requires.ts` for a host Expo or React Native app. This package is an SDK, not a runnable native app shell, so Storybook UI still needs to be mounted from an app entry point and Metro config.
 
 Validation commands:
 

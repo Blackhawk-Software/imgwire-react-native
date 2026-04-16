@@ -16,12 +16,14 @@ export type ResponsiveBreakpoint = {
   format?: OutputFormat;
 };
 
-export function useResponsiveImage(options: {
-  id?: string;
-  url?: string;
-  width: number;
-  breakpoints?: ResponsiveBreakpoint[];
-} & ImageUrlOptions): string {
+export function useResponsiveImage(
+  options: {
+    id?: string;
+    url?: string;
+    width: number;
+    breakpoints?: ResponsiveBreakpoint[];
+  } & ImageUrlOptions,
+): string {
   const { id, url, width, breakpoints, ...restTransforms } = options;
   const baseTransforms = restTransforms as ImageUrlOptions;
 
@@ -52,14 +54,14 @@ export function useResponsiveImage(options: {
       gravity: breakpoint?.gravity ?? baseTransforms.gravity,
       height: breakpoint?.height ?? baseTransforms.height,
       quality: breakpoint?.quality ?? baseTransforms.quality,
-      width: breakpoint?.width ?? baseTransforms.width ?? Math.ceil(width)
-    })
+      width: breakpoint?.width ?? baseTransforms.width ?? Math.ceil(width),
+    }),
   );
 }
 
 function selectBreakpoint(
   width: number,
-  breakpoints?: ResponsiveBreakpoint[]
+  breakpoints?: ResponsiveBreakpoint[],
 ): ResponsiveBreakpoint | undefined {
   if (!breakpoints || breakpoints.length === 0) {
     return undefined;
@@ -81,5 +83,7 @@ function selectDpr(deviceDpr: number, candidates?: number[]): number {
   }
 
   const sorted = candidates.slice().sort((left, right) => left - right);
-  return sorted.find((candidate) => candidate >= deviceDpr) ?? sorted.at(-1) ?? 1;
+  return (
+    sorted.find((candidate) => candidate >= deviceDpr) ?? sorted.at(-1) ?? 1
+  );
 }

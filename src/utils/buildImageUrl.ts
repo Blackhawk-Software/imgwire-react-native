@@ -1,7 +1,7 @@
 import {
   ImageUrlBuilder,
   type ImageSchema,
-  type ImageUrlOptions
+  type ImageUrlOptions,
 } from "@imgwire/js";
 
 const PLACEHOLDER_IMAGE: Omit<ImageSchema, "cdn_url"> = {
@@ -23,13 +23,13 @@ const PLACEHOLDER_IMAGE: Omit<ImageSchema, "cdn_url"> = {
   status: "READY",
   updated_at: "",
   upload_token_id: null,
-  width: 0
+  width: 0,
 };
 
 export function buildImageUrl(baseUrl: string, options?: ImageUrlOptions) {
   const builder = new ImageUrlBuilder({
     ...PLACEHOLDER_IMAGE,
-    cdn_url: baseUrl
+    cdn_url: baseUrl,
   });
 
   return builder.build(options);

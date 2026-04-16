@@ -11,7 +11,7 @@ vi.mock("@imgwire/js", () => {
   class ImgwireClient {
     options: Record<string, unknown>;
     images = {
-      uploadRawWithProgress
+      uploadRawWithProgress,
     };
 
     constructor(options: Record<string, unknown>) {
@@ -20,7 +20,7 @@ vi.mock("@imgwire/js", () => {
   }
 
   return {
-    ImgwireClient
+    ImgwireClient,
   };
 });
 
@@ -40,7 +40,7 @@ describe("useUpload", () => {
     fetchFile.mockResolvedValue({
       ok: true,
       headers: { get: () => "image/jpeg" },
-      arrayBuffer: async () => new Uint8Array([1, 2, 3]).buffer
+      arrayBuffer: async () => new Uint8Array([1, 2, 3]).buffer,
     });
     uploadRawWithProgress.mockImplementation(
       async (input: { onProgress?: (progress: any) => void }) => {
@@ -48,11 +48,11 @@ describe("useUpload", () => {
           loaded: 50,
           total: 100,
           percent: 50,
-          lengthComputable: true
+          lengthComputable: true,
         });
 
         return { id: "img_uploaded" };
-      }
+      },
     );
 
     const wrapper = ({ children }: { children: ReactNode }) => (
@@ -66,9 +66,9 @@ describe("useUpload", () => {
     await act(async () => {
       const image = await result.current[0](
         {
-          uri: "file:///tmp/example.jpg"
+          uri: "file:///tmp/example.jpg",
         },
-        { onProgress }
+        { onProgress },
       );
       expect(image).toEqual({ id: "img_uploaded" });
     });
@@ -79,20 +79,20 @@ describe("useUpload", () => {
       expect.objectContaining({
         contentLength: 3,
         fileName: "example.jpg",
-        mimeType: "image/jpeg"
-      })
+        mimeType: "image/jpeg",
+      }),
     );
     expect(onProgress).toHaveBeenCalledWith({
       loaded: 50,
       total: 100,
       percent: 50,
-      lengthComputable: true
+      lengthComputable: true,
     });
     expect(result.current[1]).toEqual({
       loaded: 50,
       total: 100,
       percent: 50,
-      lengthComputable: true
+      lengthComputable: true,
     });
   });
 
@@ -100,13 +100,11 @@ describe("useUpload", () => {
     fetchFile.mockResolvedValue({
       ok: true,
       headers: { get: () => "image/jpeg" },
-      arrayBuffer: async () => new Uint8Array([1, 2, 3]).buffer
+      arrayBuffer: async () => new Uint8Array([1, 2, 3]).buffer,
     });
 
     let callCount = 0;
-    let resolveSecondUpload:
-      | ((value: { id: string }) => void)
-      | undefined;
+    let resolveSecondUpload: ((value: { id: string }) => void) | undefined;
 
     uploadRawWithProgress.mockImplementation(
       async (input: { onProgress?: (progress: any) => void }) => {
@@ -117,7 +115,7 @@ describe("useUpload", () => {
             loaded: 100,
             total: 100,
             percent: 100,
-            lengthComputable: true
+            lengthComputable: true,
           });
 
           return { id: "img_1" };
@@ -126,7 +124,7 @@ describe("useUpload", () => {
         return new Promise<{ id: string }>((resolve) => {
           resolveSecondUpload = resolve;
         });
-      }
+      },
     );
 
     const wrapper = ({ children }: { children: ReactNode }) => (
@@ -139,7 +137,7 @@ describe("useUpload", () => {
 
     await act(async () => {
       await result.current[0]({
-        uri: "file:///tmp/example.jpg"
+        uri: "file:///tmp/example.jpg",
       });
     });
 
@@ -147,7 +145,7 @@ describe("useUpload", () => {
 
     await act(async () => {
       void result.current[0]({
-        uri: "file:///tmp/example.jpg"
+        uri: "file:///tmp/example.jpg",
       });
       await Promise.resolve();
     });
@@ -156,7 +154,7 @@ describe("useUpload", () => {
       loaded: 0,
       total: null,
       percent: null,
-      lengthComputable: false
+      lengthComputable: false,
     });
 
     await act(async () => {

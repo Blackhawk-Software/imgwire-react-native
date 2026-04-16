@@ -33,8 +33,8 @@
   "scripts": {
     "format": "prettier --write .",
     "build": "tsup",
-    "storybook": "storybook dev -p 7007",
-    "build-storybook": "storybook build",
+    "storybook": "node -e \"const { generate } = require('./node_modules/@storybook/react-native/scripts/generate'); generate({ configPath: './.rnstorybook', port: 7007 }).then(() => console.log('Generated .rnstorybook/storybook.requires.ts'))\"",
+    "build-storybook": "node -e \"const { generate } = require('./node_modules/@storybook/react-native/scripts/generate'); generate({ configPath: './.rnstorybook', port: 7007 }).then(() => console.log('Generated .rnstorybook/storybook.requires.ts'))\"",
     "release:prepare": "node scripts/release.mjs prepare",
     "release:verify-tag": "node scripts/release.mjs verify-tag",
     "test": "vitest run",

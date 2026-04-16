@@ -19,19 +19,22 @@ const INITIAL_PROGRESS: UploadProgress = {
   loaded: 0,
   total: null,
   percent: null,
-  lengthComputable: false
+  lengthComputable: false,
 };
 
 export function useUpload(): [
-  (file: UploadableFile, options?: ImagesUploadOptions) => Promise<ImgwireImage>,
-  UploadProgress
+  (
+    file: UploadableFile,
+    options?: ImagesUploadOptions,
+  ) => Promise<ImgwireImage>,
+  UploadProgress,
 ] {
   const client = useClient();
   const [progress, setProgress] = useState<UploadProgress>(INITIAL_PROGRESS);
 
   async function upload(
     file: UploadableFile,
-    options?: ImagesUploadOptions
+    options?: ImagesUploadOptions,
   ): Promise<ImgwireImage> {
     setProgress(INITIAL_PROGRESS);
 
@@ -51,14 +54,14 @@ export function useUpload(): [
           loaded: nextProgress.loaded,
           total: nextProgress.total,
           percent: nextProgress.percent,
-          lengthComputable: nextProgress.lengthComputable
+          lengthComputable: nextProgress.lengthComputable,
         });
         options?.onProgress?.(nextProgress);
       },
       purpose: options?.purpose,
       requestInit: options?.requestInit,
       signal: options?.signal,
-      uploadToken: options?.uploadToken
+      uploadToken: options?.uploadToken,
     });
   }
 
@@ -74,7 +77,7 @@ async function readUploadableFile(file: UploadableFile): Promise<{
   const fetchApi = globalThis.fetch;
   if (!fetchApi) {
     throw new Error(
-      "Imgwire React Native uploads require a fetch implementation to read file URIs."
+      "Imgwire React Native uploads require a fetch implementation to read file URIs.",
     );
   }
 
@@ -93,7 +96,7 @@ async function readUploadableFile(file: UploadableFile): Promise<{
     data,
     contentLength: data.byteLength,
     fileName,
-    mimeType
+    mimeType,
   };
 }
 

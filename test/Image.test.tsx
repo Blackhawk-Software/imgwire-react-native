@@ -10,7 +10,7 @@ const buildUrl = vi.fn();
 vi.mock("@imgwire/js", () => {
   class ImgwireClient {
     images = {
-      fetch: fetchImage
+      fetch: fetchImage,
     };
 
     constructor(public readonly options: Record<string, unknown>) {}
@@ -26,7 +26,7 @@ vi.mock("@imgwire/js", () => {
 
   return {
     ImageUrlBuilder,
-    ImgwireClient
+    ImgwireClient,
   };
 });
 
@@ -44,7 +44,7 @@ describe("Image", () => {
     );
 
     expect(() =>
-      render(<Image style={{ width: 100, height: 100 }} />, { wrapper })
+      render(<Image style={{ width: 100, height: 100 }} />, { wrapper }),
     ).toThrow("<Image /> requires either an id or a url.");
   });
 
@@ -63,11 +63,11 @@ describe("Image", () => {
         width={320}
         style={{ width: 160, height: 100 }}
       />,
-      { wrapper }
+      { wrapper },
     );
 
     expect(getByTestId("rn-image").getAttribute("data-source-uri")).toBe(
-      "https://cdn.imgwire.dev/example.jpg?width=320"
+      "https://cdn.imgwire.dev/example.jpg?width=320",
     );
     expect(fetchImage).not.toHaveBeenCalled();
   });
@@ -75,7 +75,7 @@ describe("Image", () => {
   it("fetches by id before rendering when only an image id is provided", async () => {
     fetchImage.mockResolvedValue({
       id: "img_123",
-      cdn_url: "https://cdn.imgwire.dev/example.jpg"
+      cdn_url: "https://cdn.imgwire.dev/example.jpg",
     });
     buildUrl.mockReturnValue("https://cdn.imgwire.dev/example.jpg?width=640");
 
@@ -87,17 +87,15 @@ describe("Image", () => {
 
     const { container } = render(
       <Image id="img_123" width={640} style={{ width: 320, height: 200 }} />,
-      { wrapper }
+      { wrapper },
     );
 
     await waitFor(() => {
       expect(
-        container.querySelector('[data-testid="rn-image"]')?.getAttribute(
-          "data-source-uri"
-        )
-      ).toBe(
-        "https://cdn.imgwire.dev/example.jpg?width=640"
-      );
+        container
+          .querySelector('[data-testid="rn-image"]')
+          ?.getAttribute("data-source-uri"),
+      ).toBe("https://cdn.imgwire.dev/example.jpg?width=640");
     });
   });
 });

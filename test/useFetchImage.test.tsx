@@ -10,7 +10,7 @@ vi.mock("@imgwire/js", () => {
   class ImgwireClient {
     options: Record<string, unknown>;
     images = {
-      fetch: fetchImage
+      fetch: fetchImage,
     };
 
     constructor(options: Record<string, unknown>) {
@@ -19,7 +19,7 @@ vi.mock("@imgwire/js", () => {
   }
 
   return {
-    ImgwireClient
+    ImgwireClient,
   };
 });
 
@@ -31,7 +31,7 @@ describe("useFetchImage", () => {
   it("returns fetched image data", async () => {
     fetchImage.mockResolvedValue({
       id: "img_123",
-      cdn_url: "https://cdn.imgwire.dev/example.jpg"
+      cdn_url: "https://cdn.imgwire.dev/example.jpg",
     });
 
     const wrapper = ({ children }: { children: ReactNode }) => (
@@ -50,7 +50,7 @@ describe("useFetchImage", () => {
 
     expect(result.current.data).toEqual({
       id: "img_123",
-      cdn_url: "https://cdn.imgwire.dev/example.jpg"
+      cdn_url: "https://cdn.imgwire.dev/example.jpg",
     });
     expect(result.current.error).toBeNull();
   });
@@ -86,7 +86,7 @@ describe("useFetchImage", () => {
     expect(result.current).toEqual({
       data: null,
       error: null,
-      isLoading: false
+      isLoading: false,
     });
     expect(fetchImage).not.toHaveBeenCalled();
   });
@@ -95,11 +95,11 @@ describe("useFetchImage", () => {
     fetchImage
       .mockResolvedValueOnce({
         id: "img_1",
-        cdn_url: "https://cdn.imgwire.dev/1.jpg"
+        cdn_url: "https://cdn.imgwire.dev/1.jpg",
       })
       .mockResolvedValueOnce({
         id: "img_2",
-        cdn_url: "https://cdn.imgwire.dev/2.jpg"
+        cdn_url: "https://cdn.imgwire.dev/2.jpg",
       });
 
     const wrapper = ({ children }: { children: ReactNode }) => (
@@ -110,7 +110,7 @@ describe("useFetchImage", () => {
 
     const { result, rerender } = renderHook(({ id }) => useFetchImage(id), {
       initialProps: { id: "img_1" },
-      wrapper
+      wrapper,
     });
 
     await waitFor(() => {

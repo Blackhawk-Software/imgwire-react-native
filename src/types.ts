@@ -15,12 +15,9 @@ import type {
   OutputFormat,
   PaddingValue,
   ResizingType,
-  RotateAngle
+  RotateAngle,
 } from "@imgwire/js";
-import type {
-  UploadableFile,
-  UploadProgress
-} from "./hooks/useUpload.ts";
+import type { UploadableFile, UploadProgress } from "./hooks/useUpload.ts";
 
 export type ClientOptions = ImgwireClientOptions;
 export type ImgwireImageData = ImgwireImage;
@@ -40,5 +37,5 @@ export type {
   OutputFormat,
   PaddingValue,
   ResizingType,
-  RotateAngle
+  RotateAngle,
 };

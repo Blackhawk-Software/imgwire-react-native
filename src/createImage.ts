@@ -1,7 +1,7 @@
 import {
   ImgwireClient,
   type ImagesCreateOptions,
-  type StandardUploadCreateSchema
+  type StandardUploadCreateSchema,
 } from "@imgwire/js";
 import type { ClientOptions } from "./types.ts";
 
@@ -16,7 +16,7 @@ export async function createImage({
   body,
   client,
   config,
-  options
+  options,
 }: CreateImageArgs): Promise<{
   uploadUrl: string;
   image: Awaited<ReturnType<ImgwireClient["images"]["create"]>>["image"];
@@ -26,7 +26,7 @@ export async function createImage({
 
   if (!resolvedClient) {
     throw new Error(
-      "createImage requires either a client instance or a config object."
+      "createImage requires either a client instance or a config object.",
     );
   }
 
@@ -34,6 +34,6 @@ export async function createImage({
 
   return {
     uploadUrl: response.upload_url,
-    image: response.image
+    image: response.image,
   };
 }

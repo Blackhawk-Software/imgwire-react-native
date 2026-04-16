@@ -11,7 +11,7 @@ const buildUrl = vi.fn();
 vi.mock("@imgwire/js", () => {
   class ImgwireClient {
     images = {
-      fetch: fetchImage
+      fetch: fetchImage,
     };
 
     constructor(public readonly options: Record<string, unknown>) {}
@@ -27,7 +27,7 @@ vi.mock("@imgwire/js", () => {
 
   return {
     ImageUrlBuilder,
-    ImgwireClient
+    ImgwireClient,
   };
 });
 
@@ -41,12 +41,14 @@ describe("useResponsiveImage", () => {
         width: 390,
         breakpoints: [
           { minWidth: 0, width: 320, dpr: [1, 2] },
-          { minWidth: 375, width: 768, dpr: [2, 3] }
-        ]
-      })
+          { minWidth: 375, width: 768, dpr: [2, 3] },
+        ],
+      }),
     );
 
-    expect(result.current).toBe("https://cdn.imgwire.dev/example.jpg?w=768&dpr=2");
+    expect(result.current).toBe(
+      "https://cdn.imgwire.dev/example.jpg?w=768&dpr=2",
+    );
     expect(fetchImage).not.toHaveBeenCalled();
   });
 
@@ -57,9 +59,11 @@ describe("useResponsiveImage", () => {
     getPixelRatio.mockReturnValue(2.5);
     fetchImage.mockResolvedValue({
       id: "img_123",
-      cdn_url: "https://cdn.imgwire.dev/example.jpg"
+      cdn_url: "https://cdn.imgwire.dev/example.jpg",
     });
-    buildUrl.mockReturnValue("https://cdn.imgwire.dev/example.jpg?w=1024&dpr=3");
+    buildUrl.mockReturnValue(
+      "https://cdn.imgwire.dev/example.jpg?w=1024&dpr=3",
+    );
 
     const wrapper = ({ children }: { children: ReactNode }) => (
       <ImgwireProvider config={{ apiKey: "pk_responsive", fetch }}>
@@ -74,15 +78,15 @@ describe("useResponsiveImage", () => {
           width: 820,
           breakpoints: [
             { minWidth: 0, width: 320, dpr: [1, 2] },
-            { minWidth: 768, width: 1024, dpr: [2, 3] }
-          ]
+            { minWidth: 768, width: 1024, dpr: [2, 3] },
+          ],
         }),
-      { wrapper }
+      { wrapper },
     );
 
     await waitFor(() => {
       expect(result.current).toBe(
-        "https://cdn.imgwire.dev/example.jpg?w=1024&dpr=3"
+        "https://cdn.imgwire.dev/example.jpg?w=1024&dpr=3",
       );
     });
   });
