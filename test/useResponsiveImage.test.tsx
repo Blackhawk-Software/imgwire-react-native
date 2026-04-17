@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { renderHook, waitFor } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { PixelRatio } from "react-native";
 import { ImgwireProvider } from "../src/provider/ImgwireProvider.tsx";
 import { useResponsiveImage } from "../src/hooks/useResponsiveImage.ts";
@@ -32,6 +32,21 @@ vi.mock("@imgwire/js", () => {
 });
 
 describe("useResponsiveImage", () => {
+  afterEach(() => {
+    fetchImage.mockReset();
+    buildUrl.mockReset();
+  });
+
+  it("throws when id and url are both missing", () => {
+    expect(() =>
+      renderHook(() =>
+        useResponsiveImage({
+          width: 390,
+        }),
+      ),
+    ).toThrow("useResponsiveImage requires either an id or a url.");
+  });
+
   it("builds a url immediately when a base url is provided", () => {
     buildUrl.mockReturnValue("https://cdn.imgwire.dev/example.jpg?w=768&dpr=2");
 
@@ -50,6 +65,27 @@ describe("useResponsiveImage", () => {
       "https://cdn.imgwire.dev/example.jpg?w=768&dpr=2",
     );
     expect(fetchImage).not.toHaveBeenCalled();
+  });
+
+  it("returns an empty string while an id-backed image is still resolving", () => {
+    fetchImage.mockImplementation(() => new Promise(() => undefined));
+
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <ImgwireProvider config={{ apiKey: "pk_responsive", fetch }}>
+        {children}
+      </ImgwireProvider>
+    );
+
+    const { result } = renderHook(
+      () =>
+        useResponsiveImage({
+          id: "img_123",
+          width: 390,
+        }),
+      { wrapper },
+    );
+
+    expect(result.current).toBe("");
   });
 
   it("resolves an image id and picks the matching breakpoint", async () => {
@@ -87,6 +123,87 @@ describe("useResponsiveImage", () => {
     await waitFor(() => {
       expect(result.current).toBe(
         "https://cdn.imgwire.dev/example.jpg?w=1024&dpr=3",
+      );
+    });
+  });
+
+  it("falls back to the smallest breakpoint when width is below the minimum", () => {
+    buildUrl.mockReturnValue("https://cdn.imgwire.dev/example.jpg?w=320&dpr=2");
+
+    const { result } = renderHook(() =>
+      useResponsiveImage({
+        url: "https://cdn.imgwire.dev/example.jpg",
+        width: 200,
+        breakpoints: [
+          { minWidth: 375, width: 768, dpr: [2, 3] },
+          { minWidth: 320, width: 320, dpr: [1, 2] },
+        ],
+      }),
+    );
+
+    expect(result.current).toBe(
+      "https://cdn.imgwire.dev/example.jpg?w=320&dpr=2",
+    );
+  });
+
+  it("uses the device DPR when breakpoint candidates are not provided", () => {
+    buildUrl.mockReturnValue("https://cdn.imgwire.dev/example.jpg?w=390&dpr=2");
+
+    const { result } = renderHook(() =>
+      useResponsiveImage({
+        url: "https://cdn.imgwire.dev/example.jpg",
+        width: 390,
+      }),
+    );
+
+    expect(result.current).toBe(
+      "https://cdn.imgwire.dev/example.jpg?w=390&dpr=2",
+    );
+  });
+
+  it("passes merged transform options to the url builder", async () => {
+    fetchImage.mockResolvedValue({
+      id: "img_123",
+      cdn_url: "https://cdn.imgwire.dev/example.jpg",
+    });
+    buildUrl.mockReturnValue("https://cdn.imgwire.dev/example.jpg?w=768&dpr=2");
+
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <ImgwireProvider config={{ apiKey: "pk_responsive", fetch }}>
+        {children}
+      </ImgwireProvider>
+    );
+
+    renderHook(
+      () =>
+        useResponsiveImage({
+          id: "img_123",
+          width: 390,
+          format: "webp",
+          quality: 70,
+          breakpoints: [
+            {
+              minWidth: 375,
+              width: 768,
+              height: 400,
+              quality: 80,
+              dpr: [1, 2],
+            },
+          ],
+        }),
+      { wrapper },
+    );
+
+    await waitFor(() => {
+      expect(buildUrl).toHaveBeenLastCalledWith(
+        "https://cdn.imgwire.dev/example.jpg",
+        expect.objectContaining({
+          dpr: 2,
+          format: "webp",
+          height: 400,
+          quality: 80,
+          width: 768,
+        }),
       );
     });
   });

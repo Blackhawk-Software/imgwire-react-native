@@ -91,6 +91,18 @@ describe("useFetchImage", () => {
     expect(fetchImage).not.toHaveBeenCalled();
   });
 
+  it("returns an explicit error when no provider is available", () => {
+    const { result } = renderHook(() => useFetchImage("img_123"));
+
+    return waitFor(() => {
+      expect(result.current.data).toBeNull();
+      expect(result.current.isLoading).toBe(false);
+      expect(result.current.error?.message).toBe(
+        "useFetchImage must be used within <ImgwireProvider />.",
+      );
+    });
+  });
+
   it("refetches when the image id changes", async () => {
     fetchImage
       .mockResolvedValueOnce({

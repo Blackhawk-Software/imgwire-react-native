@@ -6,16 +6,33 @@ export function useFetchImage(id: string): {
   data: ImgwireImage | null;
   isLoading: boolean;
   error: Error | null;
+};
+export function useFetchImage(
+  id: string,
+  options?: { enabled?: boolean },
+): {
+  data: ImgwireImage | null;
+  isLoading: boolean;
+  error: Error | null;
+};
+export function useFetchImage(
+  id: string,
+  options?: { enabled?: boolean },
+): {
+  data: ImgwireImage | null;
+  isLoading: boolean;
+  error: Error | null;
 } {
   const client = useContext(ImgwireContext);
+  const enabled = options?.enabled ?? true;
   const [data, setData] = useState<ImgwireImage | null>(null);
-  const [isLoading, setIsLoading] = useState(Boolean(id));
+  const [isLoading, setIsLoading] = useState(Boolean(id) && enabled);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     let cancelled = false;
 
-    if (!id) {
+    if (!enabled || !id) {
       setData(null);
       setIsLoading(false);
       setError(null);
@@ -59,7 +76,7 @@ export function useFetchImage(id: string): {
     return () => {
       cancelled = true;
     };
-  }, [client, id]);
+  }, [client, enabled, id]);
 
   return { data, isLoading, error };
 }

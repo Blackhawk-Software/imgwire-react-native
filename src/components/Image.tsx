@@ -20,7 +20,9 @@ export function Image(props: ImgwireImageProps) {
     throw new Error("<Image /> requires either an id or a url.");
   }
 
-  const { data, error } = useFetchImage(props.id ?? "");
+  const { data, error } = useFetchImage(props.id ?? "", {
+    enabled: !props.url,
+  });
   if (error) {
     throw error;
   }

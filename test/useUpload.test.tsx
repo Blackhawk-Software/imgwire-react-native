@@ -161,4 +161,132 @@ describe("useUpload", () => {
       resolveSecondUpload?.({ id: "img_2" });
     });
   });
+
+  it("passes inferred file details and upload options through", async () => {
+    const signal = new AbortController().signal;
+    const getUploadToken = vi.fn();
+    fetchFile.mockResolvedValue({
+      ok: true,
+      headers: { get: () => "image/png" },
+      arrayBuffer: async () => new Uint8Array([1, 2, 3, 4]).buffer,
+    });
+    uploadRawWithProgress.mockResolvedValue({ id: "img_passthrough" });
+
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <ImgwireProvider config={{ apiKey: "pk_upload", fetch }}>
+        {children}
+      </ImgwireProvider>
+    );
+
+    const { result } = renderHook(() => useUpload(), { wrapper });
+
+    await act(async () => {
+      await result.current[0](
+        {
+          uri: "file:///tmp/photo%20space.png?cache=123",
+        },
+        {
+          customMetadata: { source: "expo" },
+          getUploadToken,
+          hashSha256: "hash",
+          idempotencyKey: "idem",
+          purpose: "avatar",
+          requestInit: { headers: { "x-test": "1" } },
+          signal,
+          uploadToken: "token",
+        },
+      );
+    });
+
+    expect(uploadRawWithProgress).toHaveBeenCalledWith({
+      contentLength: 4,
+      customMetadata: { source: "expo" },
+      data: expect.any(ArrayBuffer),
+      fileName: "photo space.png",
+      getUploadToken,
+      hashSha256: "hash",
+      idempotencyKey: "idem",
+      mimeType: "image/png",
+      onProgress: expect.any(Function),
+      purpose: "avatar",
+      requestInit: { headers: { "x-test": "1" } },
+      signal,
+      uploadToken: "token",
+    });
+  });
+
+  it("prefers explicit name and type over inferred file details", async () => {
+    fetchFile.mockResolvedValue({
+      ok: true,
+      headers: { get: () => "image/png" },
+      arrayBuffer: async () => new Uint8Array([1, 2, 3, 4]).buffer,
+    });
+    uploadRawWithProgress.mockResolvedValue({ id: "img_explicit" });
+
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <ImgwireProvider config={{ apiKey: "pk_upload", fetch }}>
+        {children}
+      </ImgwireProvider>
+    );
+
+    const { result } = renderHook(() => useUpload(), { wrapper });
+
+    await act(async () => {
+      await result.current[0]({
+        uri: "file:///tmp/photo.png",
+        name: "override.jpg",
+        type: "image/jpeg",
+      });
+    });
+
+    expect(uploadRawWithProgress).toHaveBeenCalledWith(
+      expect.objectContaining({
+        fileName: "override.jpg",
+        mimeType: "image/jpeg",
+      }),
+    );
+  });
+
+  it("throws when fetch is unavailable for reading file URIs", async () => {
+    vi.stubGlobal("fetch", undefined);
+
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <ImgwireProvider config={{ apiKey: "pk_upload", fetch }}>
+        {children}
+      </ImgwireProvider>
+    );
+
+    const { result } = renderHook(() => useUpload(), { wrapper });
+
+    await expect(
+      result.current[0]({
+        uri: "file:///tmp/example.jpg",
+      }),
+    ).rejects.toThrow(
+      "Imgwire React Native uploads require a fetch implementation to read file URIs.",
+    );
+    expect(uploadRawWithProgress).not.toHaveBeenCalled();
+  });
+
+  it("throws when reading the upload file fails", async () => {
+    fetchFile.mockResolvedValue({
+      ok: false,
+      status: 404,
+    });
+
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <ImgwireProvider config={{ apiKey: "pk_upload", fetch }}>
+        {children}
+      </ImgwireProvider>
+    );
+
+    const { result } = renderHook(() => useUpload(), { wrapper });
+
+    await expect(
+      result.current[0]({
+        uri: "file:///tmp/missing.jpg",
+      }),
+    ).rejects.toThrow("Failed to read upload file: 404");
+    expect(uploadRawWithProgress).not.toHaveBeenCalled();
+  });
 });

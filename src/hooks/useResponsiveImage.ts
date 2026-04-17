@@ -31,7 +31,9 @@ export function useResponsiveImage(
     throw new Error("useResponsiveImage requires either an id or a url.");
   }
 
-  const image = useFetchImage(id ?? "");
+  const image = useFetchImage(id ?? "", {
+    enabled: !url,
+  });
   if (image.error) {
     throw image.error;
   }
