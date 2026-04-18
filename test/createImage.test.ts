@@ -20,7 +20,11 @@ vi.mock("@imgwire/js", () => {
 describe("createImage", () => {
   it("uses an existing client instance when provided", async () => {
     createImageRequest.mockResolvedValue({
-      image: { id: "img_123" },
+      image: {
+        id: "img_123",
+        can_upload: true,
+        is_directly_deliverable: true,
+      },
       upload_url: "https://upload.imgwire.dev/presigned",
     });
 
@@ -39,14 +43,22 @@ describe("createImage", () => {
         client,
       }),
     ).resolves.toEqual({
-      image: { id: "img_123" },
+      image: {
+        id: "img_123",
+        can_upload: true,
+        is_directly_deliverable: true,
+      },
       uploadUrl: "https://upload.imgwire.dev/presigned",
     });
   });
 
   it("creates a client from config when needed", async () => {
     createImageRequest.mockResolvedValue({
-      image: { id: "img_456" },
+      image: {
+        id: "img_456",
+        can_upload: true,
+        is_directly_deliverable: true,
+      },
       upload_url: "https://upload.imgwire.dev/another",
     });
 
@@ -59,7 +71,11 @@ describe("createImage", () => {
         config: { apiKey: "pk_123", fetch },
       }),
     ).resolves.toEqual({
-      image: { id: "img_456" },
+      image: {
+        id: "img_456",
+        can_upload: true,
+        is_directly_deliverable: true,
+      },
       uploadUrl: "https://upload.imgwire.dev/another",
     });
   });

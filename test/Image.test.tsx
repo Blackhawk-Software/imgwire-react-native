@@ -50,7 +50,7 @@ describe("Image", () => {
   });
 
   it("renders synchronously when a url is provided", () => {
-    buildUrl.mockReturnValue("https://cdn.imgwire.dev/example.jpg?width=320");
+    buildUrl.mockReturnValue("cdn.imgwire.dev/example?width=320");
 
     const wrapper = ({ children }: { children: ReactNode }) => (
       <ImgwireProvider config={{ apiKey: "pk_image", fetch }}>
@@ -60,7 +60,7 @@ describe("Image", () => {
 
     const { getByTestId } = render(
       <Image
-        url="https://cdn.imgwire.dev/example.jpg"
+        url="cdn.imgwire.dev/example"
         width={320}
         style={{ width: 160, height: 100 }}
       />,
@@ -68,13 +68,13 @@ describe("Image", () => {
     );
 
     expect(getByTestId("rn-image").getAttribute("data-source-uri")).toBe(
-      "https://cdn.imgwire.dev/example.jpg?width=320",
+      "cdn.imgwire.dev/example?width=320",
     );
     expect(fetchImage).not.toHaveBeenCalled();
   });
 
   it("prefers a direct url over an id-backed fetch", () => {
-    buildUrl.mockReturnValue("https://cdn.imgwire.dev/direct.jpg?width=320");
+    buildUrl.mockReturnValue("cdn.imgwire.dev/direct?width=320");
 
     const wrapper = ({ children }: { children: ReactNode }) => (
       <ImgwireProvider config={{ apiKey: "pk_image", fetch }}>
@@ -85,7 +85,7 @@ describe("Image", () => {
     const { container } = render(
       <Image
         id="img_123"
-        url="https://cdn.imgwire.dev/direct.jpg"
+        url="cdn.imgwire.dev/direct"
         width={320}
         style={{ width: 160, height: 100 }}
       />,
@@ -96,16 +96,18 @@ describe("Image", () => {
       container
         .querySelector('[data-testid="rn-image"]')
         ?.getAttribute("data-source-uri"),
-    ).toBe("https://cdn.imgwire.dev/direct.jpg?width=320");
+    ).toBe("cdn.imgwire.dev/direct?width=320");
     expect(fetchImage).not.toHaveBeenCalled();
   });
 
   it("fetches by id before rendering when only an image id is provided", async () => {
     fetchImage.mockResolvedValue({
       id: "img_123",
-      cdn_url: "https://cdn.imgwire.dev/example.jpg",
+      cdn_url: "cdn.imgwire.dev/example",
+      can_upload: true,
+      is_directly_deliverable: true,
     });
-    buildUrl.mockReturnValue("https://cdn.imgwire.dev/example.jpg?width=640");
+    buildUrl.mockReturnValue("cdn.imgwire.dev/example?width=640");
 
     const wrapper = ({ children }: { children: ReactNode }) => (
       <ImgwireProvider config={{ apiKey: "pk_image", fetch }}>
@@ -123,12 +125,12 @@ describe("Image", () => {
         container
           .querySelector('[data-testid="rn-image"]')
           ?.getAttribute("data-source-uri"),
-      ).toBe("https://cdn.imgwire.dev/example.jpg?width=640");
+      ).toBe("cdn.imgwire.dev/example?width=640");
     });
   });
 
   it("does not pass transform props through to the underlying RN image", () => {
-    buildUrl.mockReturnValue("https://cdn.imgwire.dev/example.jpg?width=320");
+    buildUrl.mockReturnValue("cdn.imgwire.dev/example?width=320");
 
     const wrapper = ({ children }: { children: ReactNode }) => (
       <ImgwireProvider config={{ apiKey: "pk_image", fetch }}>
@@ -138,7 +140,7 @@ describe("Image", () => {
 
     const { container } = render(
       <Image
-        url="https://cdn.imgwire.dev/example.jpg"
+        url="cdn.imgwire.dev/example"
         width={320}
         resizeMode="cover"
         style={{ width: 160, height: 100 }}

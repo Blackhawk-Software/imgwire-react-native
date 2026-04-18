@@ -27,7 +27,7 @@ export const Transformed: StoryObj<typeof meta> = {
     url: EXAMPLE_IMAGE_URL,
     width: 560,
     height: 360,
-    format: "webp",
+    format: "auto",
     quality: 80,
   },
 };

@@ -5,6 +5,7 @@ import {
 } from "@imgwire/js";
 
 const PLACEHOLDER_IMAGE: Omit<ImageSchema, "cdn_url"> = {
+  can_upload: true,
   created_at: "",
   custom_metadata: {},
   deleted_at: null,
@@ -15,6 +16,7 @@ const PLACEHOLDER_IMAGE: Omit<ImageSchema, "cdn_url"> = {
   height: 0,
   id: "",
   idempotency_key: null,
+  is_directly_deliverable: true,
   mime_type: "image/jpeg",
   original_filename: "",
   processed_metadata_at: null,

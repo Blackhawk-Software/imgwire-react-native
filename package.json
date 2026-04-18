@@ -46,7 +46,7 @@
     "react-native": ">=0.70"
   },
   "dependencies": {
-    "@imgwire/js": "^0.1.6"
+    "@imgwire/js": "0.2.0"
   },
   "devDependencies": {
     "@storybook/react": "^10.3.5",

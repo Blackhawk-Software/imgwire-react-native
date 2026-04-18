@@ -48,11 +48,11 @@ describe("useResponsiveImage", () => {
   });
 
   it("builds a url immediately when a base url is provided", () => {
-    buildUrl.mockReturnValue("https://cdn.imgwire.dev/example.jpg?w=768&dpr=2");
+    buildUrl.mockReturnValue("cdn.imgwire.dev/example?w=768&dpr=2");
 
     const { result } = renderHook(() =>
       useResponsiveImage({
-        url: "https://cdn.imgwire.dev/example.jpg",
+        url: "cdn.imgwire.dev/example",
         width: 390,
         breakpoints: [
           { minWidth: 0, width: 320, dpr: [1, 2] },
@@ -61,9 +61,7 @@ describe("useResponsiveImage", () => {
       }),
     );
 
-    expect(result.current).toBe(
-      "https://cdn.imgwire.dev/example.jpg?w=768&dpr=2",
-    );
+    expect(result.current).toBe("cdn.imgwire.dev/example?w=768&dpr=2");
     expect(fetchImage).not.toHaveBeenCalled();
   });
 
@@ -95,11 +93,11 @@ describe("useResponsiveImage", () => {
     getPixelRatio.mockReturnValue(2.5);
     fetchImage.mockResolvedValue({
       id: "img_123",
-      cdn_url: "https://cdn.imgwire.dev/example.jpg",
+      cdn_url: "cdn.imgwire.dev/example",
+      can_upload: true,
+      is_directly_deliverable: true,
     });
-    buildUrl.mockReturnValue(
-      "https://cdn.imgwire.dev/example.jpg?w=1024&dpr=3",
-    );
+    buildUrl.mockReturnValue("cdn.imgwire.dev/example?w=1024&dpr=3");
 
     const wrapper = ({ children }: { children: ReactNode }) => (
       <ImgwireProvider config={{ apiKey: "pk_responsive", fetch }}>
@@ -121,18 +119,16 @@ describe("useResponsiveImage", () => {
     );
 
     await waitFor(() => {
-      expect(result.current).toBe(
-        "https://cdn.imgwire.dev/example.jpg?w=1024&dpr=3",
-      );
+      expect(result.current).toBe("cdn.imgwire.dev/example?w=1024&dpr=3");
     });
   });
 
   it("falls back to the smallest breakpoint when width is below the minimum", () => {
-    buildUrl.mockReturnValue("https://cdn.imgwire.dev/example.jpg?w=320&dpr=2");
+    buildUrl.mockReturnValue("cdn.imgwire.dev/example?w=320&dpr=2");
 
     const { result } = renderHook(() =>
       useResponsiveImage({
-        url: "https://cdn.imgwire.dev/example.jpg",
+        url: "cdn.imgwire.dev/example",
         width: 200,
         breakpoints: [
           { minWidth: 375, width: 768, dpr: [2, 3] },
@@ -141,32 +137,30 @@ describe("useResponsiveImage", () => {
       }),
     );
 
-    expect(result.current).toBe(
-      "https://cdn.imgwire.dev/example.jpg?w=320&dpr=2",
-    );
+    expect(result.current).toBe("cdn.imgwire.dev/example?w=320&dpr=2");
   });
 
   it("uses the device DPR when breakpoint candidates are not provided", () => {
-    buildUrl.mockReturnValue("https://cdn.imgwire.dev/example.jpg?w=390&dpr=2");
+    buildUrl.mockReturnValue("cdn.imgwire.dev/example?w=390&dpr=2");
 
     const { result } = renderHook(() =>
       useResponsiveImage({
-        url: "https://cdn.imgwire.dev/example.jpg",
+        url: "cdn.imgwire.dev/example",
         width: 390,
       }),
     );
 
-    expect(result.current).toBe(
-      "https://cdn.imgwire.dev/example.jpg?w=390&dpr=2",
-    );
+    expect(result.current).toBe("cdn.imgwire.dev/example?w=390&dpr=2");
   });
 
   it("passes merged transform options to the url builder", async () => {
     fetchImage.mockResolvedValue({
       id: "img_123",
-      cdn_url: "https://cdn.imgwire.dev/example.jpg",
+      cdn_url: "cdn.imgwire.dev/example",
+      can_upload: true,
+      is_directly_deliverable: true,
     });
-    buildUrl.mockReturnValue("https://cdn.imgwire.dev/example.jpg?w=768&dpr=2");
+    buildUrl.mockReturnValue("cdn.imgwire.dev/example?w=768&dpr=2");
 
     const wrapper = ({ children }: { children: ReactNode }) => (
       <ImgwireProvider config={{ apiKey: "pk_responsive", fetch }}>
@@ -179,7 +173,7 @@ describe("useResponsiveImage", () => {
         useResponsiveImage({
           id: "img_123",
           width: 390,
-          format: "webp",
+          format: "auto",
           quality: 70,
           breakpoints: [
             {
@@ -196,10 +190,10 @@ describe("useResponsiveImage", () => {
 
     await waitFor(() => {
       expect(buildUrl).toHaveBeenLastCalledWith(
-        "https://cdn.imgwire.dev/example.jpg",
+        "cdn.imgwire.dev/example",
         expect.objectContaining({
           dpr: 2,
-          format: "webp",
+          format: "auto",
           height: 400,
           quality: 80,
           width: 768,

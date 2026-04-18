@@ -99,10 +99,10 @@ Bridges imgwire URL generation to React Native `Image`.
 
 ```tsx
 <Image
-  url="https://cdn.imgwire.dev/example.jpg"
+  url="cdn.imgwire.dev/example"
   style={{ width: 300, height: 200 }}
   width={600}
-  format="webp"
+  format="auto"
 />
 ```
 

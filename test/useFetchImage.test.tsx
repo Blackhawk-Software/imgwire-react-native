@@ -31,7 +31,9 @@ describe("useFetchImage", () => {
   it("returns fetched image data", async () => {
     fetchImage.mockResolvedValue({
       id: "img_123",
-      cdn_url: "https://cdn.imgwire.dev/example.jpg",
+      cdn_url: "cdn.imgwire.dev/example",
+      can_upload: true,
+      is_directly_deliverable: true,
     });
 
     const wrapper = ({ children }: { children: ReactNode }) => (
@@ -50,7 +52,9 @@ describe("useFetchImage", () => {
 
     expect(result.current.data).toEqual({
       id: "img_123",
-      cdn_url: "https://cdn.imgwire.dev/example.jpg",
+      cdn_url: "cdn.imgwire.dev/example",
+      can_upload: true,
+      is_directly_deliverable: true,
     });
     expect(result.current.error).toBeNull();
   });
@@ -107,11 +111,15 @@ describe("useFetchImage", () => {
     fetchImage
       .mockResolvedValueOnce({
         id: "img_1",
-        cdn_url: "https://cdn.imgwire.dev/1.jpg",
+        cdn_url: "cdn.imgwire.dev/1",
+        can_upload: true,
+        is_directly_deliverable: true,
       })
       .mockResolvedValueOnce({
         id: "img_2",
-        cdn_url: "https://cdn.imgwire.dev/2.jpg",
+        cdn_url: "cdn.imgwire.dev/2",
+        can_upload: true,
+        is_directly_deliverable: true,
       });
 
     const wrapper = ({ children }: { children: ReactNode }) => (
