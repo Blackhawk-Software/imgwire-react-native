@@ -1,6 +1,9 @@
-# @imgwire/react-native
+![imgwire.dev Logo](https://cdn.imgwire.dev/6b024480-a5ac-426d-b539-2e4fccc4c6ac/26f80c13-48bd-4bb9-866e-5e9392b11a6a/4ba5fe50-433b-40db-a847-938d2081c21a?w=280&quality=80)
+
+# `@imgwire/react-native`
 
 [![npm version](https://img.shields.io/npm/v/%40imgwire%2Freact-native)](https://www.npmjs.com/package/@imgwire/react-native)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![CI](https://github.com/Blackhawk-Software/imgwire-react-native/actions/workflows/ci.yml/badge.svg)](https://github.com/Blackhawk-Software/imgwire-react-native/actions/workflows/ci.yml)
 [![Release](https://github.com/Blackhawk-Software/imgwire-react-native/actions/workflows/release.yml/badge.svg)](https://github.com/Blackhawk-Software/imgwire-react-native/actions/workflows/release.yml)
 
@@ -11,11 +14,13 @@
 - upload files from `file://` or app-local URIs with progress tracking
 - build responsive transformation URLs manually for native layouts
 
-Imgwire docs: https://docs.imgwire.dev
+> [!TIP]
+> Obtain an API key by signing up at [imgwire.dev](https://imgwire.dev). Read the full API & SDK documentation [here](https://docs.imgwire.dev/guides/frontend-quickstart).
 
 Underlying JavaScript SDK:
 
 - [`@imgwire/js` repository](https://github.com/Blackhawk-Software/imgwire-js)
+
 
 ## Installation
 
