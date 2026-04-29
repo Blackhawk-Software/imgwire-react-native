@@ -21,7 +21,6 @@ Underlying JavaScript SDK:
 
 - [`@imgwire/js` repository](https://github.com/Blackhawk-Software/imgwire-js)
 
-
 ## Installation
 
 ```bash
