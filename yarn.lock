@@ -442,10 +442,10 @@
   dependencies:
     nanoid "^3.3.1"
 
-"@imgwire/js@0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@imgwire/js/-/js-0.3.0.tgz#5a8d57473080fef3ee69639dfc6eb27f711b8e15"
-  integrity sha512-GJl56P0mQG2rzSWPQiMdszdUuCsYlQ+9htdZM0FViAI53TwESD/x2iCRzmGSmKmZjUiV7vrFAARQQuTzPWVD7w==
+"@imgwire/js@0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@imgwire/js/-/js-0.3.1.tgz#27669eabd4bbe1f0e48083bd43c6e6f85c23371a"
+  integrity sha512-OL6DSyPDp5l/aMJQFndw+A9CWcObAkTbq8Jkccqt0JHZmLENMi6HZx6OoadpvNXOvZqZLy1GRCsHKFIFNoqSEQ==
 
 "@jridgewell/gen-mapping@^0.3.12", "@jridgewell/gen-mapping@^0.3.2", "@jridgewell/gen-mapping@^0.3.5":
   version "0.3.13"

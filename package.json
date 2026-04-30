@@ -1,6 +1,6 @@
 {
   "name": "@imgwire/react-native",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "TypeScript-first React Native SDK for imgwire.",
   "license": "MIT",
   "packageManager": "yarn@1.22.22",
@@ -46,7 +46,7 @@
     "react-native": ">=0.70"
   },
   "dependencies": {
-    "@imgwire/js": "0.3.0"
+    "@imgwire/js": "0.3.1"
   },
   "devDependencies": {
     "@storybook/react": "^10.3.5",

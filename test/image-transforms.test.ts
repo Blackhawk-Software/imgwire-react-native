@@ -17,6 +17,7 @@ const transformProps = {
   bl: 2,
   brightness: 1,
   br: "1",
+  chroma_subsampling: "4:2:2",
   color_profile: "srgb",
   cp: "srgb",
   icc: "keep",
@@ -72,7 +73,8 @@ const transformProps = {
   pd: "1:2:3:4",
   pixelate: 8,
   pix: "8",
-  quality: 80,
+  progressive: "auto",
+  quality: "auto",
   q: "80",
   resizing_algorithm: "lanczos3",
   ra: "nearest",
@@ -110,7 +112,7 @@ const transformProps = {
 } satisfies Record<keyof ImageUrlOptions, unknown>;
 
 describe("image transform utilities", () => {
-  it("picks every @imgwire/js 0.3.0 image URL transform prop", () => {
+  it("picks every @imgwire/js 0.3.1 image URL transform prop", () => {
     expect(
       pickImageUrlOptions({
         ...transformProps,

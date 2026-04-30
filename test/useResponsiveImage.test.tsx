@@ -173,14 +173,16 @@ describe("useResponsiveImage", () => {
         useResponsiveImage({
           id: "img_123",
           width: 390,
+          chroma_subsampling: "4:4:4",
           format: "auto",
+          progressive: "auto",
           quality: 70,
           breakpoints: [
             {
               minWidth: 375,
               width: 768,
               height: 400,
-              quality: 80,
+              quality: "auto",
               dpr: [1, 2],
             },
           ],
@@ -193,9 +195,11 @@ describe("useResponsiveImage", () => {
         "cdn.imgwire.dev/example",
         expect.objectContaining({
           dpr: 2,
+          chroma_subsampling: "4:4:4",
           format: "auto",
           height: 400,
-          quality: 80,
+          progressive: "auto",
+          quality: "auto",
           width: 768,
         }),
       );

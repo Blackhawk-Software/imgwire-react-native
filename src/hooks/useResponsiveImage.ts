@@ -1,6 +1,11 @@
 import type { ImageUrlOptions } from "@imgwire/js";
 import { PixelRatio } from "react-native";
-import type { CropValue, GravityValue, OutputFormat } from "../types.ts";
+import type {
+  CropValue,
+  GravityValue,
+  OutputFormat,
+  QualityValue,
+} from "../types.ts";
 import { useFetchImage } from "./useFetchImage.ts";
 import { buildImageUrl } from "../utils/buildImageUrl.ts";
 import { compactImageUrlOptions } from "../utils/image-transforms.ts";
@@ -12,7 +17,7 @@ export type ResponsiveBreakpoint = {
   dpr?: number[];
   crop?: CropValue;
   gravity?: GravityValue;
-  quality?: number;
+  quality?: QualityValue;
   format?: OutputFormat;
 };
 
